@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import { UserConsumer } from "./DemoContext";
 
 export default class PostList extends Component {
   constructor(props) {
@@ -15,12 +16,21 @@ export default class PostList extends Component {
     const { posts, error } = this.state;
 
     return (
-      <div>
-        {posts.length
-          ? posts.map(post => <div key={post.id}>{post.title}</div>)
-          : null}
-        <div>{error ? error : ""}</div>
-      </div>
+      <UserConsumer>
+        {context => {
+          return (
+            <div>
+              <div>
+                {context.name} is {context.age} years old.
+              </div>
+              {posts.length
+                ? posts.map(post => <div key={post.id}>{post.title}</div>)
+                : null}
+              <div>{error ? error : ""}</div>
+            </div>
+          );
+        }}
+      </UserConsumer>
     );
   }
 
